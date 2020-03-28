@@ -8,6 +8,11 @@ def home():
     return "Hello, Flask!"
 
 
+@commonBp.route("/addbook/<name>")
+def saveBook(name):
+    return BookService.saveBook(name)
+
+
 @commonBp.route("/booksPoentailShelfs")
 def booksPoentailShelfs():
     return BookService.getBooksWithPotentialShelf()

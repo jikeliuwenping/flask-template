@@ -1,6 +1,6 @@
 from peewee import *
 
-from package.base.database import flask_db
+from package.base.database import flask_db, database
 from package.models.entities.exampleEntities import *
 from .shelfModal import *
 
@@ -12,6 +12,12 @@ class BookModel(ModelSchema):
 
     class Meta:
         model = Book
+
+    # more detail about transaction: http://docs.peewee-orm.com/en/latest/peewee/database.html#context-manager
+    @classmethod
+    @database.atomic()
+    def saveBook(cls, name):
+        return BookModel(only=("id", "name")).dump(Book.create(name=name))
 
     @classmethod
     def getAllBooksWithShelf(cls):
